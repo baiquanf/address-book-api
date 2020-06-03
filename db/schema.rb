@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_03_182700) do
+ActiveRecord::Schema.define(version: 2020_06_03_183325) do
+
+  create_table "address_types", force: :cascade do |t|
+    t.string "name", limit: 50
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "people", force: :cascade do |t|
     t.string "first_name", limit: 50
