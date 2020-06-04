@@ -8,11 +8,15 @@ RSpec.describe AddressType, type: :model do
   end
   
   context "validations" do
-    before { FactoryBot.create(:address_type) }
+    before { FactoryBot.build(:address_type) }
 
     context "presence" do
       it { is_expected.to validate_presence_of :name }
       it { is_expected.to validate_length_of(:name).is_at_most(50) }
     end
+  end
+
+  context "associations" do
+    it { is_expected.to  have_many(:addresses) }
   end
 end
