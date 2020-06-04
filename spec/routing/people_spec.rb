@@ -8,4 +8,3 @@ RSpec.describe 'people routes', :type => :routing do
   it { is_expected.to route(:patch, '/api/v1/people/1').to('api/v1/people#update', id: '1', format: :json) }
   it { is_expected.to route(:delete, '/api/v1/people/1').to('api/v1/people#destroy', id: '1', format: :json) }
 end
-

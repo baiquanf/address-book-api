@@ -28,6 +28,15 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+# Devise is a flexible authentication solution for Rails based on Warden
+gem 'devise', '~> 4.7.1'
+
+# A lightning fast JSON:API serializer for Ruby Objects
+# gem 'fast_jsonapi', '~> 1.5'
+gem "active_model_serializers", "~> 0.8.0"
+# A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern web app frameworks and ORMs
+gem 'kaminari', '~> 1.2.1'
+
 group :development, :test do
   # Call 'pry-byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug', '~> 3.9.0'
@@ -46,6 +55,7 @@ end
 group :test do
   # Shoulda Matchers from https://github.com/thoughtbot/shoulda-matchers
   gem 'shoulda-matchers', '~> 4.3.0'
+  gem "email_spec", '~> 2.2.0'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
