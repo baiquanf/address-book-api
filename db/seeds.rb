@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+AddressType.delete_all
+AddressType.create(id: 1, name: 'Home')
+AddressType.create(id: 2, name: 'Work')
+AddressType.create(id: 3, name: 'Cottage')
+AddressType.create(id: 4, name: 'Other')
