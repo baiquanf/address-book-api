@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::AddressTypesController, type: :controller do
+  before(:each) do
+    user = FactoryBot.create :user
+    api_authorization_header user.auth_token
+  end
+
   describe "GET #index" do
     before(:each) do
       4.times { FactoryBot.create :address_type }

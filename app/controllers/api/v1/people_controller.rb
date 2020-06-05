@@ -1,5 +1,5 @@
 class Api::V1::PeopleController < ApplicationController
-  before_action :authenticate_with_token!, only: [:create, :update, :destroy]
+  before_action :authenticate_with_token!
   respond_to :json
 
   def index
