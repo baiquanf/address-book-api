@@ -10,8 +10,7 @@ RSpec.describe Address, type: :model do
     it { is_expected.to validate_length_of(:zip).is_at_most(20) }
     it { is_expected.to validate_presence_of :city }
     it { is_expected.to validate_length_of(:city).is_at_most(50) }
-    it { is_expected.not_to validate_presence_of(:address) }
-    it { is_expected.to validate_length_of(:address).is_at_most(50) }
+    it { is_expected.to validate_length_of(:street).is_at_most(50) }
   end
 
   context "associations" do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_04_070723) do
+ActiveRecord::Schema.define(version: 2020_06_05_063833) do
 
   create_table "address_types", force: :cascade do |t|
     t.string "name", limit: 50
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 2020_06_04_070723) do
   create_table "addresses", force: :cascade do |t|
     t.integer "person_id"
     t.integer "address_type_id"
-    t.string "address", limit: 50
+    t.string "street", limit: 50
     t.string "zip", limit: 20
     t.string "city", limit: 50
     t.datetime "created_at", null: false

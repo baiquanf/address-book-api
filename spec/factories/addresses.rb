@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :address do
-    address { Faker::Address.street_address }
+    street { Faker::Address.street_address }
     zip { Faker::Address.zip }
     city { Faker::Address.city }
     association :person, factory: :person
