@@ -1,24 +1,38 @@
-# README
+# Address Book API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Write a simple Ruby on Rails application, with REST JSON API and basic RSpec (CRUD) tests, for maintaining persons and their addresses.
 
-Things you may want to cover:
+Models
 
-* Ruby version
+Person
+- id (int)
+- first_name (string 50 mandatory)
+- last_name (string 50 mandatory)
+- birthday (date)
+- timestamps
 
-* System dependencies
+AddressType (values Home, Work, Cottage, Other)
+- id (int)
+- name (string 50 mandatory)
+- timestamps
 
-* Configuration
+Address
+- id (int)
+- person_id (int mandatory) => reference to persons.id
+- address_type_id (int mandatory) => reference to address_types.id 
+- address (string 50)
+- zip (string 20 mandatory)
+- city (string 50 mandatory)
+- timestamps
 
-* Database creation
+REST JSON API
+- it should some kind of authentication (e.g. API Key or OAuth)
+- it should have version namespacing (e.g. /api/1 and /api/2)
 
-* Database initialization
+Development environment:
 
-* How to run the test suite
+* Ruby version 2.5.8
 
-* Services (job queues, cache servers, search engines, etc.)
+* Rails version 5.2.4.3
 
-* Deployment instructions
-
-* ...
+* Database SQLite
