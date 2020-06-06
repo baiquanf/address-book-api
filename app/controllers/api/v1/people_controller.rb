@@ -27,25 +27,25 @@ class Api::V1::PeopleController < ApplicationController
   def create
     person = Person.new(person_params) 
     if person.save
-      render json: PersonSerializer.new(person).serializable_hash, status: 201, location: [:api, :v1, person] 
+      render json: PersonSerializer.new(person).serializable_hash, status: :created, location: [:api, :v1, person] 
     else
-      render json: { errors: person.errors }, status: 422
+      render json: { errors: person.errors }, status: :unprocessable_entity
     end
   end
 
   def update
     person = Person.find(params[:id])
     if person.update(person_params)
-      render json: PersonSerializer.new(person).serializable_hash, status: 200, location: [:api, :v1, person]
+      render json: PersonSerializer.new(person).serializable_hash, status: :ok, location: [:api, :v1, person]
     else
-      render json: { errors: person.errors }, status: 422
+      render json: { errors: person.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
     person = Person.find(params[:id])
     person.destroy
-    head 204
+    head :no_content
   end
 
   private

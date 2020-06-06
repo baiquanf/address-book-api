@@ -19,7 +19,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(json_response[:auth_token]).to eql @user.auth_token
       end
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
     end
 
     context "when the credentials are incorrect" do
@@ -33,7 +33,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(json_response[:errors]).to eql "Invalid email or password"
       end
 
-      it { is_expected.to respond_with 422 }
+      it { is_expected.to respond_with :unprocessable_entity }
     end
   end
 
@@ -45,6 +45,6 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
       delete :destroy, params: { id: @user.auth_token }
     end
 
-    it { is_expected.to respond_with 204 }
+    it { is_expected.to respond_with :no_content }
   end
 end

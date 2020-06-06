@@ -28,7 +28,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       expect(json_response[:data].size).to eq(4)
     end
 
-    it { is_expected.to respond_with 200 }
+    it { is_expected.to respond_with :ok }
 
     context "when is not receiving any address_type_ids parameter" do
       before(:each) do
@@ -53,7 +53,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
       it_behaves_like "paginated list"
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       expect(json_response[:data][:attributes][:street]).to eql @address.street
     end
 
-    it { is_expected.to respond_with 200 }
+    it { is_expected.to respond_with :ok }
   end
 
   describe "POST #create" do
@@ -88,7 +88,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
         end
       end
 
-      it { is_expected.to respond_with 201 }
+      it { is_expected.to respond_with :created }
     end
 
     context "when is not created" do
@@ -106,7 +106,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
         expect(json_response[:errors][:zip]).to include "can't be blank"
       end
 
-      it { is_expected.to respond_with 422 }
+      it { is_expected.to respond_with :unprocessable_entity }
     end
   end
 
@@ -124,7 +124,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
         expect(json_response[:data][:attributes][:street]).to eql "your street"
       end
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
     end
 
     context "when is not updated" do
@@ -140,7 +140,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
         expect(json_response[:errors][:zip]).to include "can't be blank"
       end
 
-      it { is_expected.to respond_with 422 }
+      it { is_expected.to respond_with :unprocessable_entity }
     end
   end
 
@@ -150,6 +150,6 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       delete :destroy, params: { id: @address.id }
     end
 
-    it { is_expected.to respond_with 204 }
+    it { is_expected.to respond_with :no_content }
   end
 end

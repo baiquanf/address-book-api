@@ -22,7 +22,7 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
       expect(json_response[:data].size).to eq(4)
     end
 
-    it { is_expected.to respond_with 200 }
+    it { is_expected.to respond_with :ok }
 
     context "when is not receiving any address_type_ids parameter" do
       before(:each) do
@@ -41,7 +41,7 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
 
       it_behaves_like "paginated list"
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
     end
   end
 
@@ -55,6 +55,6 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
       expect(json_response[:data][:attributes][:name]).to eql @address_type.name
     end
 
-    it { is_expected.to respond_with 200 }
+    it { is_expected.to respond_with :ok }
   end
 end

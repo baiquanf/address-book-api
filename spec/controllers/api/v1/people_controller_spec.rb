@@ -22,7 +22,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
       expect(json_response[:data].size).to eq(4)
     end
 
-    it { is_expected.to respond_with 200 }
+    it { is_expected.to respond_with :ok }
 
     context "when is not receiving any people_ids parameter" do
       before(:each) do
@@ -45,7 +45,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
 
       it_behaves_like "paginated list"
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
       end
     end
 
-    it { is_expected.to respond_with 200 }
+    it { is_expected.to respond_with :ok }
   end
 
   describe "POST #create" do
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
         end
       end
 
-      it { is_expected.to respond_with 201 }
+      it { is_expected.to respond_with :created }
     end
 
     context "when is not created" do
@@ -101,7 +101,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
         expect(json_response).to have_key(:errors)
       end
 
-      it { is_expected.to respond_with 422 }
+      it { is_expected.to respond_with :unprocessable_entity }
     end
   end
 
@@ -121,7 +121,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
         expect(json_response[:data][:attributes][:first_name]).to eql "David"
       end
 
-      it { is_expected.to respond_with 200 }
+      it { is_expected.to respond_with :ok }
     end
   end
 
@@ -133,6 +133,6 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
       delete :destroy, params: { id: @person.id }
     end
 
-    it { is_expected.to respond_with 204 }
+    it { is_expected.to respond_with :no_content }
   end
 end

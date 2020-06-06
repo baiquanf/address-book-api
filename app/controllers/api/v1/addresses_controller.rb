@@ -29,25 +29,25 @@ class Api::V1::AddressesController < ApplicationController
 
 	  if address.save
 	  	address.reload
-	    render json: AddressSerializer.new(address).serializable_hash, status: 201, location: [:api, :v1, address]
+	    render json: AddressSerializer.new(address).serializable_hash, status: :created, location: [:api, :v1, address]
 	  else
-	    render json: { errors: address.errors }, status: 422
+	    render json: { errors: address.errors }, status: :unprocessable_entity
 	  end
 	end
 
   def update
     address = Address.find(params[:id])
     if address.update(address_params)
-      render json: AddressSerializer.new(address).serializable_hash, status: 200, location: [:api, :v1, address]
+      render json: AddressSerializer.new(address).serializable_hash, status: :ok, location: [:api, :v1, address]
     else
-      render json: { errors: address.errors }, status: 422
+      render json: { errors: address.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
     address = Address.find(params[:id])
     address.destroy
-    head 204
+    head :no_content
   end
 
   private
