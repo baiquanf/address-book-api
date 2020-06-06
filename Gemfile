@@ -32,8 +32,8 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise', '~> 4.7.1'
 
 # A lightning fast JSON:API serializer for Ruby Objects
-# gem 'fast_jsonapi', '~> 1.5'
-gem "active_model_serializers", "~> 0.8.0"
+gem 'fast_jsonapi', '~> 1.7.2', git: 'https://github.com/fast-jsonapi/fast_jsonapi'
+
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern web app frameworks and ORMs
 gem 'kaminari', '~> 1.2.1'
 

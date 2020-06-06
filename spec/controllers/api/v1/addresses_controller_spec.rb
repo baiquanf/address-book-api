@@ -13,15 +13,19 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
     end
 
     it "returns the people object into each person" do
-      json_response[:addresses].each do |address|
-        expect(address).to be_present
-        expect(address[:person_id]).to be_present
-        expect(address[:address_type_id]).to be_present
+      json_response[:data].each do |address|
+        address[:attributes].tap do |attributes|
+          expect(attributes[:person_id]).to be_present
+          expect(attributes[:address_type_id]).to be_present
+          expect(attributes[:street]).to be_present
+          expect(attributes[:zip]).to be_present
+          expect(attributes[:city]).to be_present
+        end
       end
     end
 
     it "returns 4 records from the database" do
-      expect(json_response[:addresses].length).to eq(4)
+      expect(json_response[:data].size).to eq(4)
     end
 
     it { is_expected.to respond_with 200 }
@@ -32,12 +36,18 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       end
 
       it "returns 4 records from the database" do
-        expect(json_response[:addresses].length).to eq(4)
+        expect(json_response[:data].size).to eq(4)
       end
 
-      it "returns the people object into each person" do
-        json_response[:addresses].each do |address|
-          expect(address[:street]).to be_present
+      it "returns the addresses object into each address" do
+        json_response[:data].each do |address|
+          address[:attributes].tap do |attributes|
+            expect(attributes[:person_id]).to be_present
+            expect(attributes[:address_type_id]).to be_present
+            expect(attributes[:street]).to be_present
+            expect(attributes[:zip]).to be_present
+            expect(attributes[:city]).to be_present
+          end
         end
       end
 
@@ -54,7 +64,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
     end
 
     it "has the attributes as a embeded object" do
-      expect(json_response[:street]).to eql @address.street
+      expect(json_response[:data][:attributes][:street]).to eql @address.street
     end
 
     it { is_expected.to respond_with 200 }
@@ -69,7 +79,13 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       end
 
       it "returns the address record" do
-        expect(json_response[:id]).to be_present
+        json_response[:data][:attributes].tap do |address|
+          expect(address[:person_id]).to be_present
+          expect(address[:address_type_id]).to be_present
+          expect(address[:street]).to be_present
+          expect(address[:zip]).to be_present
+          expect(address[:city]).to be_present
+        end
       end
 
       it { is_expected.to respond_with 201 }
@@ -105,7 +121,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       end
 
       it "renders the json representation for the updated user" do
-        expect(json_response[:street]).to eql "your street"
+        expect(json_response[:data][:attributes][:street]).to eql "your street"
       end
 
       it { is_expected.to respond_with 200 }

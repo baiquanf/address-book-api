@@ -13,13 +13,13 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
     end
 
     it "returns the people object into each person" do
-      json_response[:address_types].each do |address_type|
+      json_response[:data].each do |address_type|
         expect(address_type).to be_present
       end
     end
 
     it "returns 4 records from the database" do
-      expect(json_response[:address_types].length).to eq(4)
+      expect(json_response[:data].size).to eq(4)
     end
 
     it { is_expected.to respond_with 200 }
@@ -30,12 +30,12 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
       end
 
       it "returns 4 records from the database" do
-        expect(json_response[:address_types].length).to eq(4)
+        expect(json_response[:data].size).to eq(4)
       end
 
       it "returns the people object into each person" do
-        json_response[:address_types].each do |address_type|
-          expect(address_type[:name]).to be_present
+        json_response[:data].each do |address_type|
+          expect(address_type[:attributes][:name]).to be_present
         end
       end
 
@@ -52,7 +52,7 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
     end
 
     it "has the attributes as a embeded object" do
-      expect(json_response[:name]).to eql @address_type.name
+      expect(json_response[:data][:attributes][:name]).to eql @address_type.name
     end
 
     it { is_expected.to respond_with 200 }

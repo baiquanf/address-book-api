@@ -13,13 +13,13 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
     end
 
     it "returns the people object into each person" do
-     json_response[:people].each do |person_response|
-        expect(person_response).to be_present
+      json_response[:data].each do |person|
+        expect(person).to be_present
       end
     end
 
     it "returns 4 records from the database" do
-      expect(json_response[:people].length).to eq(4)
+      expect(json_response[:data].size).to eq(4)
     end
 
     it { is_expected.to respond_with 200 }
@@ -30,12 +30,16 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
       end
 
       it "returns 4 records from the database" do
-        expect(json_response[:people].length).to eq(4)
+        expect(json_response[:data].size).to eq(4)
       end
 
       it "returns the people object into each person" do
-        json_response[:people].each do |person_response|
-          expect(person_response[:first_name]).to be_present
+        json_response[:data].each do |person|
+          person[:attributes].tap do |attributes|
+            expect(attributes[:first_name]).to be_present
+            expect(attributes[:last_name]).to be_present
+            expect(attributes[:birthday]).to be_present
+          end
         end
       end
 
@@ -52,7 +56,11 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
     end
 
     it "has the attributes as a embeded object" do
-      expect(json_response[:first_name]).to eql @person.first_name
+      json_response[:data][:attributes].tap do |person|
+        expect(person[:first_name]).to eql @person.first_name
+        expect(person[:last_name]).to eql @person.last_name
+        expect(person[:birthday].to_date).to eql @person.birthday
+      end
     end
 
     it { is_expected.to respond_with 200 }
@@ -69,7 +77,11 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
       end
 
       it "renders the json representation for the person record just created" do
-        expect(json_response[:first_name]).to eql @person_attributes[:first_name]
+        json_response[:data][:attributes].tap do |attributes|
+          expect(attributes[:first_name]).to eql @person_attributes[:first_name]
+          expect(attributes[:last_name]).to eql @person_attributes[:last_name]
+          expect(attributes[:birthday].to_date).to eql @person_attributes[:birthday]
+        end
       end
 
       it { is_expected.to respond_with 201 }
@@ -106,7 +118,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
       end
 
       it "renders the json representation for the updated user" do
-        expect(json_response[:first_name]).to eql "David"
+        expect(json_response[:data][:attributes][:first_name]).to eql "David"
       end
 
       it { is_expected.to respond_with 200 }

@@ -1,14 +1,27 @@
 class Api::V1::AddressesController < ApplicationController
+  include Pagination
+
   before_action :authenticate_with_token!
   respond_to :json
 
   def index
     addresses = Address.all.page(params[:page]).per(params[:per_page])
-    render json: addresses, meta: pagination(addresses, params[:per_page])
+
+    options = {
+      links: {
+        first: api_v1_addresses_path(per_page: per_page),
+        self: api_v1_addresses_path(page: current_page, per_page: per_page),
+        last: api_v1_addresses_path(page: addresses.total_pages,per_page: per_page)
+      },
+      meta: pagination(addresses, per_page)
+    }
+
+    render json: AddressSerializer.new(addresses, options).serializable_hash
   end
 
   def show
-    respond_with Address.find(params[:id])
+    address = Address.find(params[:id])
+    respond_with AddressSerializer.new(address).serializable_hash
   end
 
   def create
@@ -16,7 +29,7 @@ class Api::V1::AddressesController < ApplicationController
 
 	  if address.save
 	  	address.reload
-	    render json: address, status: 201, location: [:api, :v1, address]
+	    render json: AddressSerializer.new(address).serializable_hash, status: 201, location: [:api, :v1, address]
 	  else
 	    render json: { errors: address.errors }, status: 422
 	  end
@@ -25,7 +38,7 @@ class Api::V1::AddressesController < ApplicationController
   def update
     address = Address.find(params[:id])
     if address.update(address_params)
-      render json: address, status: 200, location: [:api, :v1, address]
+      render json: AddressSerializer.new(address).serializable_hash, status: 200, location: [:api, :v1, address]
     else
       render json: { errors: address.errors }, status: 422
     end
