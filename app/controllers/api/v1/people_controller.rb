@@ -51,6 +51,8 @@ class Api::V1::PeopleController < ApplicationController
   private
 
     def person_params
-      params.require(:person).permit(:first_name, :last_name, :birthday)
+      params.require(:data).require(:attributes).
+        permit(:first_name, :last_name, :birthday) ||
+      ActionController::Parameters.new
     end
 end

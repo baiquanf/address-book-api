@@ -18,7 +18,14 @@ RSpec.describe Api::V1::UsersController, type: :controller do
   context "when is successfully created" do
     before(:each) do
       @user_attributes = FactoryBot.attributes_for :user
-      post :create, params: { user: @user_attributes }
+
+      post :create, params:
+        { "data": { 
+          "attributes": {
+            "email": @user_attributes[:email],
+            "password": @user_attributes[:password],
+            "password_confirmation": @user_attributes[:password_confirmation]
+        }}}
     end
 
     it "renders the json representation for the user record just created" do
@@ -33,7 +40,14 @@ RSpec.describe Api::V1::UsersController, type: :controller do
       #no email
       @invalid_user_attributes = { password: "password",
                                    password_confirmation: "password" }
-      post :create, params: { user: @invalid_user_attributes }
+      post :create, params: 
+        { "data": { 
+          "attributes": {
+            "email": @invalid_user_attributes[:email],
+            "password": @invalid_user_attributes[:password],
+            "password_confirmation": @invalid_user_attributes[:password_confirmation]
+        }}}
+
     end
 
     it "renders an errors json" do
@@ -56,8 +70,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is successfully updated" do
       before(:each) do
         @user = FactoryBot.create(:user)
-        patch :update, params: { id: @user.id,
-                         user: { email: "newuser@example.com" } }
+        patch :update, params: 
+        { "data": { 
+          "attributes": {
+            "email": "newuser@example.com" 
+        }}}.merge(id: @user.id)
       end
 
       it "renders the json representation for the updated user" do
@@ -70,8 +87,11 @@ RSpec.describe Api::V1::UsersController, type: :controller do
     context "when is not created" do
       before(:each) do
         @user = FactoryBot.create :user
-        patch :update, params: { id: @user.id,
-                         user: { email: "bademail.com" } }
+        patch :update, params:
+        { "data": { 
+          "attributes": {
+            "email": "bademail.com" 
+        }}}.merge(id: @user.id)
       end
 
       it "renders an errors json" do

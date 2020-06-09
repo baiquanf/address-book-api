@@ -75,7 +75,15 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       before(:each) do
         person = FactoryBot.create :person
         address_type = FactoryBot.create :address_type
-        post :create, params: { person_id: person.id, address_type_id: address_type.id, street: 'my street', zip: '123456', city: 'Helsinki' }                        
+        post :create, params:
+          { "data": { 
+            "attributes": {
+              "person_id": person.id,
+              "address_type_id": address_type.id,
+              "street": 'my street',
+              "zip": '123456',
+              "city": 'Helsinki'
+          }}}                       
       end
 
       it "returns the address record" do
@@ -95,7 +103,15 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
       before(:each) do
         person = FactoryBot.create :person
         address_type = FactoryBot.create :address_type
-        post :create, params: { person_id: person.id, address_type_id: address_type.id, street: 'my street', zip: '', city: 'Helsinki' }
+        post :create, params:
+          { "data": { 
+            "attributes": {
+              "person_id": person.id,
+              "address_type_id": address_type.id,
+              "street": 'my street',
+              "zip": '',
+              "city": 'Helsinki'
+          }}}
       end
 
       it "renders an errors json" do
@@ -117,7 +133,11 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
     context "when is successfully updated" do
       before(:each) do
-        patch :update, params: { id: @address.id, street: "your street" }
+        patch :update, params:
+          { "data": { 
+            "attributes": {
+              "street": 'your street'
+          }}}.merge(id: @address.id)
       end
 
       it "renders the json representation for the updated user" do
@@ -129,7 +149,11 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
     context "when is not updated" do
       before(:each) do
-        patch :update, params: { id: @address.id, zip: '' }
+        patch :update, params:
+          { "data": { 
+            "attributes": {
+              "zip": ''
+          }}}.merge(id: @address.id)
       end
 
       it "renders an errors json" do

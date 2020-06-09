@@ -73,7 +73,16 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
         @person_attributes = FactoryBot.attributes_for :person
         user = FactoryBot.create :user
         api_authorization_header user.auth_token
-        post :create, params: { person_id: person.id, person: @person_attributes }
+        post :create, params:
+          { "data": { 
+            "attributes": {
+              "person_id": person.id,
+              "first_name": @person_attributes[:first_name],
+              "last_name": @person_attributes[:last_name],
+              "birthday": @person_attributes[:birthday]
+          }}}
+
+        { person_id: person.id, person: @person_attributes }
       end
 
       it "renders the json representation for the person record just created" do
@@ -94,7 +103,14 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
         @invalid_person_attributes = { first_name: "John", name: "Smith", birthday: "2000-01-01" }
         user = FactoryBot.create :user
         api_authorization_header user.auth_token
-        post :create, params: { person_id: person.id, person: @invalid_person_attributes }
+        post :create, params:
+          { "data": { 
+            "attributes": {
+              "person_id": person.id,
+              "first_name": @invalid_person_attributes[:first_name],
+              "last_name": @invalid_person_attributes[:last_name],
+              "birthday": @invalid_person_attributes[:birthday]
+          }}}
       end
 
       it "renders an errors json" do
@@ -114,7 +130,11 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
 
     context "when is successfully updated" do
       before(:each) do
-        patch :update, params: { id: @person.id, first_name: "David" }
+        patch :update, params:
+          { "data": { 
+            "attributes": {
+              "first_name": "David"
+          }}}.merge(id: @person.id)
       end
 
       it "renders the json representation for the updated user" do

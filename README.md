@@ -71,33 +71,82 @@ Token based authentication with Devise for Rails JSON APIs is applied to the res
   $ rails server
   ```
 ## Usage
-- Sign up/in 
+- Create an user 
   ```console
-  $ curl --globoff --location --request POST 'http://localhost:3000/users?user[email]=example@example.com&user[password]=password&user[password_confirmation]=password' 
-
+  $ curl --location --request POST 'http://localhost:3000/api/v1/users' \
+  --header 'Content-Type: application/json' \
+  --data-raw '{
+    "data": {
+      "attributes": {
+        "email": "your_email@example.com",
+        "password": "password",
+              "password_confirmation": "password"
+      }
+    }
+  }'
+  ```
+  Response
   ``` 
-  remember the auth_token, e.g., ```"auth_token":"qPcp4uaZ7_CpedtsTVbV"``` 
+  {
+    "id": 13,
+    "email": "his_email@example.com",
+    "created_at": "2020-06-09T19:16:37.041Z",
+    "updated_at": "2020-06-09T19:16:37.041Z",
+    "auth_token": "qPcp4uaZ7_CpedtsTVbV"
+  }
+  ``` 
+  remember the auth_token, e.g., ```"auth_token":"qPcp4uaZ7_CpedtsTVbV"```.
+  
+  **NOTE:** each user has its unique auth_token.
 - Sign in 
   ```console
-  $ curl --globoff --location --request GET 'http://localhost:3000/users/sign_in' --header 'auth_token: qPcp4uaZ7_CpedtsTVbV' 
+  $ curl --globoff --location --request GET 'http://localhost:3000/users/sign_in' \
+    --header 'auth_token: qPcp4uaZ7_CpedtsTVbV' 
   ```
 - Create a person
-  ```
-  $ curl --globoff --location --request POST 'http://localhost:3000/api/v1/people?person[first_name]=John1&person[last_name]=Smith1&person[birthday]=2000-01-01' --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
+  ```console
+  $ curl --location --request POST 'http://localhost:3000/api/v1/people' \
+    --header 'Authorization: qPcp4uaZ7_CpedtsTVbV' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+      "data": {
+        "attributes": {
+          "first_name": "FirstName",
+          "last_name": "LastName",
+                "birthday": "2000-01-01"
+        }
+      }
+    }'
   ```
 - Show people
   ```console
-  $ curl --globoff --location --request GET 'http://localhost:3000/api/v1/people'--header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
+  $ curl --globoff --location --request GET 'http://localhost:3000/api/v1/people'  \
+    --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
   ```
 - Create an address
   ```console  
-  $ curl --globoff --location --request POST 'http://localhost:3000/api/v1/addresses?address[person_id]=2&address[address_type_id]=2&address[street]=Helsinginkatu&address[zip]=00001&address[city]=Helsinki' --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
+  $ curl --location --request POST 'http://localhost:3000/api/v1/addresses' \
+    --header 'Authorization: qPcp4uaZ7_CpedtsTVbV' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+      "data": {
+        "attributes": {
+          "person_id": 2,
+          "address_type_id": 2,
+                "street": "my street",
+                "zip": "00001",
+                "city": "Helsinki"
+        }
+      }
+    }'
   ```
 - List addresses
   ```console
-  $ curl --globoff --location --request GET 'http://localhost:3000/api/v1/addresses' --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
+  $ curl --globoff --location --request GET 'http://localhost:3000/api/v1/addresses'  \
+    --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
   ```
 - Show an address
   ```console
-  $ curl --globoff --location --request GET 'http://localhost:3000/api/v1/addresses/1' --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
+  $ curl --globoff --location --request GET 'http://localhost:3000/api/v1/addresses/1'  \
+    --header 'Authorization: qPcp4uaZ7_CpedtsTVbV'
   ```

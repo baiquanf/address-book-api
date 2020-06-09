@@ -53,6 +53,8 @@ class Api::V1::AddressesController < ApplicationController
   private
 
     def address_params
-      params.require(:address).permit(:person_id, :address_type_id, :street, :zip, :city)
+      params.require(:data).require(:attributes).
+        permit(:person_id, :address_type_id, :street, :zip, :city) ||
+        ActionController::Parameters.new
     end
 end
