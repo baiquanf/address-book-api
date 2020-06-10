@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::PeopleController, type: :controller do
   before(:each) do
-    user = FactoryBot.create :user
+    user = create :user
     api_authorization_header user.auth_token
   end
   
   describe "GET #index" do
     before(:each) do
-      4.times { FactoryBot.create :person }
+      4.times { create :person }
       get :index
     end
 
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
 
   describe "GET #show" do
     before(:each) do
-      @person = FactoryBot.create :person
+      @person = create :person
       get :show, params: { id: @person.id }
     end
 
@@ -69,9 +69,9 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
   describe "POST #create" do
     context "when is successfully created" do
       before(:each) do
-        person = FactoryBot.create :person
-        @person_attributes = FactoryBot.attributes_for :person
-        user = FactoryBot.create :user
+        person = create :person
+        @person_attributes = attributes_for :person
+        user = create :user
         api_authorization_header user.auth_token
         post :create, params:
           { "data": { 
@@ -99,9 +99,9 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
     context "when is not created" do
       before(:each) do
 
-        person = FactoryBot.create :person
+        person = create :person
         @invalid_person_attributes = { first_name: "John", name: "Smith", birthday: "2000-01-01" }
-        user = FactoryBot.create :user
+        user = create :user
         api_authorization_header user.auth_token
         post :create, params:
           { "data": { 
@@ -123,8 +123,8 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
 
   describe "PUT/PATCH #update" do
     before(:each) do
-      @person = FactoryBot.create :person
-      user = FactoryBot.create :user
+      @person = create :person
+      user = create :user
       api_authorization_header user.auth_token
     end
 
@@ -147,8 +147,8 @@ RSpec.describe Api::V1::PeopleController, type: :controller do
 
   describe "DELETE #destroy" do
     before(:each) do
-      @person = FactoryBot.create :person
-      user = FactoryBot.create :user
+      @person = create :person
+      user = create :user
       api_authorization_header user.auth_token
       delete :destroy, params: { id: @person.id }
     end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Address, type: :model do
-  before { FactoryBot.build(:address) }
+  before { build(:address) }
 
   context "presence" do
     it { is_expected.to validate_presence_of :person_id }

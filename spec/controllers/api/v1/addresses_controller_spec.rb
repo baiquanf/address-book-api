@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::AddressesController, type: :controller do
   before(:each) do
-    user = FactoryBot.create :user
+    user = create :user
     api_authorization_header user.auth_token
   end
 
   describe "GET #index" do
     before(:each) do
-      4.times { FactoryBot.create :address }
+      4.times { create :address }
       get :index
     end
 
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
   describe "GET #show" do
     before(:each) do
-      @address = FactoryBot.create :address
+      @address = create :address
       get :show, params: { id: @address.id }
     end
 
@@ -73,8 +73,8 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
   describe "POST #create" do
     context "when is successfully created" do
       before(:each) do
-        person = FactoryBot.create :person
-        address_type = FactoryBot.create :address_type
+        person = create :person
+        address_type = create :address_type
         post :create, params:
           { "data": { 
             "attributes": {
@@ -101,8 +101,8 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
     context "when is not created" do
       before(:each) do
-        person = FactoryBot.create :person
-        address_type = FactoryBot.create :address_type
+        person = create :person
+        address_type = create :address_type
         post :create, params:
           { "data": { 
             "attributes": {
@@ -128,7 +128,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
   describe "PUT/PATCH #update" do
     before(:each) do
-      @address = FactoryBot.create :address
+      @address = create :address
     end
 
     context "when is successfully updated" do
@@ -170,7 +170,7 @@ RSpec.describe Api::V1::AddressesController, type: :controller do
 
   describe "DELETE #destroy" do
     before(:each) do
-      @address = FactoryBot.create :address
+      @address = create :address
       delete :destroy, params: { id: @address.id }
     end
 

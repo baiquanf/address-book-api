@@ -9,7 +9,7 @@ RSpec.describe Authenticable, :type => :controller do
 
   describe "#current_user" do
     before do
-      @user = FactoryBot.create :user
+      @user = create :user
       request.headers["Authorization"] = @user.auth_token
       allow(authentication).to receive(:request).and_return(request)
     end
@@ -21,7 +21,7 @@ RSpec.describe Authenticable, :type => :controller do
 
   describe "#authenticate_with_token" do
     before do
-      @user = FactoryBot.create :user
+      @user = create :user
       allow(authentication).to receive(:current_user).and_return(nil)
       allow(response).to receive(:status).and_return(401)
       allow(response).to receive(:body).and_return({"errors" => "Not authenticated"}.to_json)
@@ -38,7 +38,7 @@ RSpec.describe Authenticable, :type => :controller do
   describe "#user_signed_in?" do
     context "when there is a user on 'session'" do
       before do
-        @user = FactoryBot.create :user
+        @user = create :user
         allow(authentication).to receive(:current_user).and_return(@user)
       end
 
@@ -47,7 +47,7 @@ RSpec.describe Authenticable, :type => :controller do
 
     context "when there is no user on 'session'" do
       before do
-        @user = FactoryBot.create :user
+        @user = create :user
         allow(authentication).to receive(:current_user).and_return(nil)
       end
 

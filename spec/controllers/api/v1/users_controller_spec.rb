@@ -4,7 +4,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe "GET #show" do
     before(:each) do
-      @user = FactoryBot.create :user
+      @user = create :user
       get :show, params: { id: @user.id }
     end
 
@@ -17,7 +17,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   context "when is successfully created" do
     before(:each) do
-      @user_attributes = FactoryBot.attributes_for :user
+      @user_attributes = attributes_for :user
 
       post :create, params:
         { "data": { 
@@ -63,13 +63,13 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
   describe "PUT/PATCH #update" do
     before(:each) do
-      @user = FactoryBot.create :user
+      @user = create :user
       api_authorization_header @user.auth_token
     end
 
     context "when is successfully updated" do
       before(:each) do
-        @user = FactoryBot.create(:user)
+        @user = create(:user)
         patch :update, params: 
         { "data": { 
           "attributes": {
@@ -86,7 +86,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
     context "when is not created" do
       before(:each) do
-        @user = FactoryBot.create :user
+        @user = create :user
         patch :update, params:
         { "data": { 
           "attributes": {
@@ -109,7 +109,7 @@ RSpec.describe Api::V1::UsersController, type: :controller do
 
 	describe "DELETE #destroy" do
 	  before(:each) do
-	    @user = FactoryBot.create :user
+	    @user = create :user
       api_authorization_header @user.auth_token
 	    delete :destroy, params: { id: @user.id }
 	  end

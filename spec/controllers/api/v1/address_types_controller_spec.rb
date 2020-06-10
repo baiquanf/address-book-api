@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::AddressTypesController, type: :controller do
   before(:each) do
-    user = FactoryBot.create :user
+    user = create :user
     api_authorization_header user.auth_token
   end
 
   describe "GET #index" do
     before(:each) do
-      4.times { FactoryBot.create :address_type }
+      4.times { create :address_type }
       get :index
     end
 
@@ -47,7 +47,7 @@ RSpec.describe Api::V1::AddressTypesController, type: :controller do
 
   describe "GET #show" do
     before(:each) do
-      @address_type = FactoryBot.create :address_type
+      @address_type = create :address_type
       get :show, params: { id: @address_type.id }
     end
 
